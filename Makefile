@@ -32,7 +32,7 @@ OPT ?= -O3
 CXXFLAGS ?= -g $(OPT) -Wall -Wextra -Woverloaded-virtual -pedantic -std=c++0x -fPIC -Iinclude -Ithird_party/md5 -Ithird_party/json
 CFLAGS ?= -g $(OPT) -Wall -Wextra -pedantic -std=c99 -fPIC -Iinclude
 MAKEDEPENDFLAGS ?= -Iinclude -Ithird_party/md5 -Ithird_party/json
-EMCXXFLAGS = $(CXXFLAGS) -g0 -Os --memory-init-file 0 -s DISABLE_EXCEPTION_CATCHING=0 -s OUTLINING_LIMIT=10000 -s RESERVED_FUNCTION_POINTERS=20 -s ASSERTIONS=1 -s ALLOW_MEMORY_GROWTH=1
+EMCXXFLAGS = $(CXXFLAGS) -g0 -Os --memory-init-file 0 -s DISABLE_EXCEPTION_CATCHING=0 -s OUTLINING_LIMIT=10000 -s RESERVED_FUNCTION_POINTERS=20 -s ASSERTIONS=1 -s ALLOW_MEMORY_GROWTH=1  -s MODULARIZE=1 -s EXPORT_ES6=1
 EMCFLAGS = $(CFLAGS) --memory-init-file 0 -s DISABLE_EXCEPTION_CATCHING=0 -s ASSERTIONS=1 -s ALLOW_MEMORY_GROWTH=1
 LDFLAGS ?=
 
@@ -135,7 +135,7 @@ JS_RUNTIME_METHODS = 'EXTRA_EXPORTED_RUNTIME_METHODS=["cwrap", "_free", "getValu
 
 
 libjsonnet.js: $(LIB_SRC) $(ALL_HEADERS)
-	$(EMCXX) -s WASM=0 -s $(JS_EXPORTED_FUNCTIONS) -s $(JS_RUNTIME_METHODS) $(EMCXXFLAGS) $(LDFLAGS) $(LIB_SRC) -o $@
+	$(EMCXX) -s WASM=1 -s $(JS_EXPORTED_FUNCTIONS) -s $(JS_RUNTIME_METHODS) $(EMCXXFLAGS) $(LDFLAGS) $(LIB_SRC) -o $@
 
 # Copy javascript build to doc directory
 doc/js/libjsonnet.js: libjsonnet.js
